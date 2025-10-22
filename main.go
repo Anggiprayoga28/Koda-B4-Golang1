@@ -2,22 +2,23 @@ package main
 
 import (
 	"fmt"
-	"math"
+	"go-practice/circle"
 )
 
 func main() {
 	var radius float64
 	var choice int
 
-	fmt.Println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+	fmt.Println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 	fmt.Println("       KALKULATOR LINGKARAN")
-	fmt.Println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-
+	fmt.Println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 	fmt.Print("Masukkan jari-jari lingkaran: ")
 	fmt.Scan(&radius)
 
-	if radius <= 0 {
-		fmt.Println("Error")
+	circle := circle.NewCircle(radius)
+
+	if !circle.IsValid() {
+		fmt.Println("Error: Jari-jari harus lebih besar dari 0")
 		return
 	}
 
@@ -28,26 +29,28 @@ func main() {
 	fmt.Print("Pilihan Anda (1/2/3): ")
 	fmt.Scan(&choice)
 
-	fmt.Println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+	fmt.Println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 	fmt.Println("               HASIL")
-	fmt.Println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+	fmt.Println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+
 	switch choice {
 	case 1:
-		luas := wide(radius)
-		fmt.Printf("Luas Lingkaran: %.2f\n", luas)
+		wide := circle.CalculateArea()
+		fmt.Printf("Luas Lingkaran: %.2f\n", wide)
 	case 2:
-		keliling := around(radius)
-		fmt.Printf("Keliling Lingkaran: %.2f\n", keliling)
+		around := circle.CalculateCircumference()
+		fmt.Printf("Keliling Lingkaran: %.2f\n", around)
 	case 3:
-		luas, keliling := wideAround(radius)
-		fmt.Printf("Luas Lingkaran: %.2f\n", luas)
-		fmt.Printf("Keliling Lingkaran: %.2f\n", keliling)
+		wide := circle.CalculateArea()
+		around := circle.CalculateCircumference()
+		fmt.Printf("Luas Lingkaran: %.2f\n", wide)
+		fmt.Printf("Keliling Lingkaran: %.2f\n", around)
 	default:
-		fmt.Println("Pilihan tidak valid!")
+		fmt.Println("Pilihan tidak valid")
 		return
 	}
 
-	fmt.Println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+	fmt.Println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
 	var lagi string
 	fmt.Print("\nHitung lagi? (y/n): ")
@@ -59,20 +62,4 @@ func main() {
 	} else {
 		fmt.Println("\nTerima kasih")
 	}
-}
-
-func wide(rad float64) float64 {
-	total := math.Pi * math.Pow(rad, 2)
-	return total
-}
-
-func around(rad float64) float64 {
-	total := 2 * math.Pi * rad
-	return total
-}
-
-func wideAround(rad float64) (float64, float64) {
-	totalArea := math.Pi * math.Pow(rad, 2)
-	totalCircumference := 2 * math.Pi * rad
-	return totalArea, totalCircumference
 }
